@@ -1,0 +1,11 @@
+{
+  "name": "circle_of_fifts_visualization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "circleoffifths.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
