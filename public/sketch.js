@@ -1,9 +1,12 @@
 var canvasSize = 450;
+var canvas;
 var backgroundColor = 255;
+
 var circleOfFifths = new CircleOfFifths();
 
 function setup() {
-  createCanvas(canvasSize, canvasSize);  
+  canvas = createCanvas(canvasSize, canvasSize);  
+  centerCanvas();
 }
 
 function draw() {
@@ -76,4 +79,14 @@ function drawNotes(){
 
 function toRadians (angle) {
   return angle * (Math.PI / 180);
+}
+
+function centerCanvas() {
+  var x = (windowWidth - width) / 2;
+  var y = (windowHeight - height) / 2;
+  canvas.position(x, y);
+}
+
+function windowResized() {
+  centerCanvas();
 }
