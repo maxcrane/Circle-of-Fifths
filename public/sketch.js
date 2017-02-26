@@ -1,12 +1,44 @@
 var canvasSize = 450;
 var canvas;
-var backgroundColor = 255;
+var backgroundColor = 240;
 
 var circleOfFifths = new CircleOfFifths();
+var tonicSelect;
+var modeSelect;
 
 function setup() {
   canvas = createCanvas(canvasSize, canvasSize);  
   centerCanvas();
+  setupTonics(circleOfFifths.changeTonic);
+  setupModes();
+}
+
+function setupTonics(callback){
+  textAlign(CENTER);
+  tonicSelect = createSelect();
+  tonicSelect.position(10, 10);
+  
+  circleOfFifths.tonics.forEach(function(tonic){
+    tonicSelect.option(tonic);
+  });
+
+  tonicSelect.changed(function(){
+    circleOfFifths.currentTonic = tonicSelect.value();
+  });
+}
+
+function setupModes(callback){
+  textAlign(CENTER);
+  modeSelect = createSelect();
+  modeSelect.position(10, 40);
+
+  circleOfFifths.modes.forEach(function(mode){
+    modeSelect.option(mode);
+  });
+
+  modeSelect.changed(function(){
+    circleOfFifths.currentMode = modeSelect.value();
+  });
 }
 
 function draw() {
@@ -35,19 +67,20 @@ function drawCircle(size){
 
 function drawArcs(){
   var arcSize = canvasSize/2.3;
+  var startAngle = circleOfFifths.getArcPostStart() * 30 - 15;
   noFill();
 
   //major
-  stroke(0, 0, 255);
-  drawArc(toRadians(-135), toRadians(-45), arcSize);
+  stroke(255, 0, 0);
+  drawArc(toRadians(startAngle), toRadians(startAngle + 90), arcSize);
 
   //minor
   stroke(0, 255, 0);
-  drawArc(toRadians(-45), toRadians(45), arcSize);
+  drawArc(toRadians(startAngle + 90), toRadians(startAngle + 180), arcSize);
 
   //diminished 
-  stroke(255, 0, 0);
-  drawArc(toRadians(45), toRadians(70), arcSize);
+  stroke(0, 0, 255);
+  drawArc(toRadians(startAngle + 180), toRadians(startAngle + 205), arcSize);
 }
 
 function drawArc(startAngle, endAngle, size){
@@ -55,6 +88,7 @@ function drawArc(startAngle, endAngle, size){
 }
 
 function drawNotes(){
+  textAlign(LEFT);
   var radius = canvasSize/3.3;
   
   textSize(canvasSize/15);
@@ -63,7 +97,7 @@ function drawNotes(){
   //Translate a little due to text offset
   translate(-canvasSize/40, canvasSize/50);
 
-  var notes = circleOfFifths.notes;
+  var notes = circleOfFifths.getNotes();
   var currentAngle = 90;
   
   notes.forEach(function(note){
